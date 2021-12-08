@@ -4,4 +4,48 @@
     
 <h1>Dashboard</h1>
 
+<h1>Classes</h1>
+<form action="{{ url_for('class_new') }}", method="post">
+    <label for="name">Class Name</label>
+    <input type="text" name="name" id="">
+    <label for="description">Class Description</label>
+    <input type="text" name="description" id="">
+    <label for="color">Color</label>
+    <input type="color" name="color" id="">
+    <input type="submit" value="Submit">
+</form>
+{% for class in classes %}
+<div>
+    <h3>{{class.name}}</h3>
+    <h5>{{class.description}}</h5>
+    <!-- Make this for both -->
+    <form action="{{ url_for('assignment_new', class_id=class['_id']) }}", method="post">
+        <label for="name">Assignment Name</label>
+        <input type="text" name="name" id="">
+    
+        <label for="description">Assignment Description</label>
+        <input type="text" name="description" id="">
+    
+        <label for="time">Time</label>
+        <input type="time" name="time" id="">
+    
+        <label for="date">Date</label>
+        <input type="date" name="date" id="">
+        
+        <input type="submit" value="Submit">
+    </form>
+    {% for assignment in class['assignments'] %}
+        <div>
+            <h5>{{ assignment.name }}</h5>
+            <p>{{ assignment.description }}</p>
+            <p>{{ assignment.time }}</p>
+            <p>{{ assignment.date }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endfor %}
+
+<h1>Assignments</h1>
+
+
 {% endblock content %}
