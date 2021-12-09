@@ -2,56 +2,109 @@
 
 {% block content %}
     
-<h1>Dashboard</h1>
+<div class=" p-5 bg-light">
+    <h1>Dashboard</h1>
+    <h5>This is where you manage everything</h5>
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-classes" aria-controls="offcanvasExample">
+        New Class
+    </button>
+</div>
 
-<h1>Classes</h1>
-<form action="{{ url_for('class_new') }}", method="post">
-    <label for="name">Class Name</label>
-    <input type="text" name="name" id="">
-    <label for="description">Class Description</label>
-    <input type="text" name="description" id="">
-    <label for="color">Color</label>
-    <input type="color" name="color" id="">
-    <input type="submit" value="Submit">
-</form>
-{% for class in classes %}
-<div class="container">
-    <h3>{{class.name}}</h3>
-    <h5>{{class.description}}</h5>
-    <a href="{{ url_for('class_delete', id=class._id) }}">
-        <button>Delete</button>
-    </a>
-    <!-- Make this for both -->
-    <form action="{{ url_for('assignment_new', class_id=class['_id']) }}", method="post">
-        <label for="name">Assignment Name</label>
-        <input type="text" name="name" id="">
-    
-        <label for="description">Assignment Description</label>
-        <input type="text" name="description" id="">
-    
-        <label for="time">Time</label>
-        <input type="time" name="time" id="">
-    
-        <label for="date">Date</label>
-        <input type="date" name="date" id="">
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-classes" aria-labelledby="offcanvas-classes-label">
+    <div class="offcanvas-header" id="offcanvas-classes-label">
+        <h3>Create Class</h3>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form class="p-4 border" action="{{ url_for('class_new') }}", method="post">
+            <div class="form-group mb-3">
+                <label class="form-label" for="name">Class Name</label>
+                <input class="form-control" type="text" name="name" id="">
+            </div>
         
-        <input type="submit" value="Submit">
-    </form>
-    {% for assignment in class['assignments'] %}
-        <div class="container">
-            <h5>{{ assignment.name }}</h5>
-            <p>{{ assignment.description }}</p>
-            <p>{{ assignment.time }}</p>
-            <p>{{ assignment.date }}</p>
-            <a href="{{ url_for('assignment_delete', id=assignment._id) }}">
-                <button>Delete</button>
-            </a>
+            <div class="form-group mb-3">
+                <label class="form-label" for="description">Class Description</label>
+                <input class="form-control" type="text" name="description" id="">
+            </div>
+        
+           <div class="form-group mb-3">
+                <label class="form-label" for="color">Color</label>
+                <input class="form-control" type="color" name="color" id="">
+           </div>
+        
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+{% for class in classes %}
+<div class="card m-5">
+    <div class="card-header">
+        <h3>{{class.name}}</h3>
+        <h5>{{class.description}}</h5>
+        
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-assignments" aria-controls="offcanvas-assignments-label">
+            New Assignment
+        </button>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-assignments" aria-labelledby="offcanvas-assignments-label">
+            <div class="offcanvas-header" id="offcanvas-assignments-label">
+                <h3>Create Assignment</h3>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form class="p-4 border" action="{{ url_for('assignment_new', class_id=class['_id']) }}", method="post">
+            
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="name">Assignment Name</label>
+                        <input class="form-control" type="text" name="name" id="">
+                    </div>
+                
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="description">Assignment Description</label>
+                        <input class="form-control" type="text" name="description" id="">
+                    </div>
+                
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="time">Time</label>
+                        <input class="form-control" type="time" name="time" id="">
+                    </div>
+                
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="date">Date</label>
+                        <input class="form-control" type="date" name="date" id="">
+                    </div>
+                    
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form>
+            </div>
         </div>
-    {% endfor %}
+
+        <a href="{{ url_for('class_delete', id=class._id) }}">
+            <button class="btn btn-danger">Delete</button>
+        </a>
+    </div>
+    <!-- Make this for both -->
+
+    <div class="card-body">
+    
+        {% for assignment in class['assignments'] %}
+            <div class="card m-4">
+                <div class="card-header">
+                    <h5 class="card-title">{{ assignment.name }}</h5>
+                    <p class="card-text">{{ assignment.description }}</p>
+                </div>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <p class="p-0">Due at {{ assignment.time }} on {{ assignment.date }}</p>
+                    <a href="{{ url_for('assignment_delete', id=assignment._id) }}">
+                        <button class="btn btn-danger">Delete</button>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endfor %}
-
-<h1>Assignments</h1>
 
 
 {% endblock content %}
