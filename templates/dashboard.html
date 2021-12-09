@@ -15,9 +15,12 @@
     <input type="submit" value="Submit">
 </form>
 {% for class in classes %}
-<div>
+<div class="container">
     <h3>{{class.name}}</h3>
     <h5>{{class.description}}</h5>
+    <a href="{{ url_for('class_delete', id=class._id) }}">
+        <button>Delete</button>
+    </a>
     <!-- Make this for both -->
     <form action="{{ url_for('assignment_new', class_id=class['_id']) }}", method="post">
         <label for="name">Assignment Name</label>
@@ -35,11 +38,14 @@
         <input type="submit" value="Submit">
     </form>
     {% for assignment in class['assignments'] %}
-        <div>
+        <div class="container">
             <h5>{{ assignment.name }}</h5>
             <p>{{ assignment.description }}</p>
             <p>{{ assignment.time }}</p>
             <p>{{ assignment.date }}</p>
+            <a href="{{ url_for('assignment_delete', id=assignment._id) }}">
+                <button>Delete</button>
+            </a>
         </div>
     {% endfor %}
 </div>

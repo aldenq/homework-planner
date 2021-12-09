@@ -63,6 +63,16 @@ def class_new():
     else:
         return redirect(url_for('login'))
 
+@app.route('/classes/delete/<id>')
+def class_delete(id):
+    if logged_in():
+        assignments.delete_many({'class_id':ObjectId(id)})
+        classes.delete_one({'_id':ObjectId(id)})
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('login'))
+
+
 # ASSIGNMENTS
 @app.route('/assignments/new/<class_id>', methods=['POST'])
 def assignment_new(class_id):
@@ -80,6 +90,15 @@ def assignment_new(class_id):
         return redirect(url_for('dashboard'))
     else:
         return redirect(url_for('login'))
+
+@app.route('/assignments/delete/<id>', methods=['GET'])
+def assignment_delete(id):
+    if logged_in():
+        assignments.delete_one({'_id':ObjectId(id)})
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('login'))
+
 
 # LOGIN
 @app.route('/login', methods=['GET'])
