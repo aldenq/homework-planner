@@ -38,11 +38,13 @@ def dashboard():
     if logged_in():
         user = current_user()
         user_classes = list(classes.find({'user_id':user['_id']}))
-        print(len(list(user_classes)))
         for c in user_classes:
+            print(f"Class: {c['_id']}")
             found_assignments = assignments.find({'class_id':c['_id']})
             c['assignments'] = []
             c['assignments'].extend(found_assignments)
+            for a in list(found_assignments.clone()):
+                print(f"\tassignment: {a['_id']}, c-id: {a['class_id']}")
         return render_template("dashboard.html", user=user, classes=user_classes)
     else:
         return redirect(url_for('login'))
@@ -51,7 +53,6 @@ def dashboard():
 @app.route('/classes/new', methods=['POST'])
 def class_new():
     if logged_in():
-        
         form_data = {
             'name':request.form.get('name'),
             'description':request.form.get('description'),
@@ -77,7 +78,6 @@ def class_delete(id):
 @app.route('/assignments/new/<class_id>', methods=['POST'])
 def assignment_new(class_id):
     if logged_in():
-
         form_data = {
             'name':request.form.get('name'),
             'description':request.form.get('description'),
@@ -86,6 +86,7 @@ def assignment_new(class_id):
             'class_id':ObjectId(class_id)
         }
         assignments.insert_one(form_data)
+        print(f"New Assignment id: {class_id}")
 
         return redirect(url_for('dashboard'))
     else:

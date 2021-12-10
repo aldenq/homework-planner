@@ -44,11 +44,11 @@
         <h3>{{class.name}}</h3>
         <h5>{{class.description}}</h5>
         
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-assignments" aria-controls="offcanvas-assignments-label">
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-assignments-{{ class['_id'] }}" aria-controls="offcanvas-assignments-label-{{ class['_id'] }}">
             New Assignment
         </button>
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-assignments" aria-labelledby="offcanvas-assignments-label">
-            <div class="offcanvas-header" id="offcanvas-assignments-label">
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-assignments-{{ class['_id'] }}" aria-labelledby="offcanvas-assignments-label-{{ class['_id'] }}">
+            <div class="offcanvas-header" id="offcanvas-assignments-label-{{ class['_id'] }}">
                 <h3>Create Assignment</h3>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
