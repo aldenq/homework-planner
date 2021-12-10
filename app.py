@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
+# app.secret_key = os.urandom(12)
 app.secret_key = os.environ.get('SECRET_KEY')
 
 #Bcrypt setup
@@ -160,6 +161,12 @@ def signup_form():
 
         return redirect(url_for("dashboard"))
 
+# LOGOUT
+@app.route('/logout')
+def logout():
+    session['username'] = None
+    session['password'] = None
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
