@@ -12,7 +12,8 @@ app.secret_key = 'funny_key'
 bcrypt = Bcrypt(app)
 
 #pymango setup
-client = MongoClient()
+client = MongoClient(f"mongodb+srv://heroku:{os.environ.get('PASSWORD')}@cluster0.2lvxa.mongodb.net/Cluster0?retryWrites=true&w=majority")
+
 db = client.homework_planner
 users = db.users
 classes = db.classes
